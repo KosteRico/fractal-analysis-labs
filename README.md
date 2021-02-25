@@ -1,2 +1,1 @@
-# fractal-analysis-labs
-The repository for Methods for fractal analysis of digital images labs
+# Лабораторные работы по дисциплине "Методы фрактального анализа цифровых изображений"
