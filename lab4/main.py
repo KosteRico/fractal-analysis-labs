@@ -1,44 +1,55 @@
 from os import listdir
 
-from skimage import io, color
+import cv2
+import numpy as np
 
 N = 200
 
 
-def measure_part(arr):
-    v_ol = 0
-
-    for i in range(arr.shape[0]):
-        for j in range(arr.shape[1]):
-            minmax = []
-            if i > 0:
-                minmax.append(arr[i - 1][j])
-            if i < arr.shape[0] - 1:
-                minmax.append(arr[i + 1][j])
-            if j < arr.shape[1] - 1:
-                minmax.append(arr[i][j + 1])
-            if j > 0:
-                minmax.append(arr[i][j - 1])
-
-            ma = max(minmax)
-            mi = min(minmax)
-
-            u = max(arr[i][j] + 1, ma)
-            b = min(arr[i][j] - 1, mi)
-            v_ol += u - b
-
-    return v_ol / 2
+def get_u(img):
+    k, l = img.shape
+    u = np.ndarray(img.shape)
+    for i in range(k - 1):
+        for j in range(l - 1):
+            u[i][j] = max(img[i][j] + 1, max(img[i - 1][j], img[i][j - 1], img[i + 1][j], img[i][j + 1]))
+    return u
 
 
-def measure_image(img):
-    res = 0
+def get_b(img):
+    k, l = img.shape
+    b = np.ndarray(img.shape)
+    for i in range(k - 1):
+        for j in range(l - 1):
+            b[i][j] = min(img[i][j] - 1, min(img[i - 1][j], img[i][j - 1], img[i + 1][j], img[i][j + 1]))
+    return b
 
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            res += measure_part(img[i: i + N, j: j + N])
-            print(res)
 
-    return res
+def get_vol(u, b):
+    k, l = u.shape
+    vol = 0.0
+    for i in range(k):
+        for j in range(l):
+            vol = vol + u[i][j] - b[i][j]
+    return vol
+
+
+def get_D(img):
+    u1 = get_u(img)
+    u2 = get_u(u1)
+    u3 = get_u(u2)
+
+    b1 = get_b(img)
+    b2 = get_b(b1)
+    b3 = get_b(b2)
+
+    vol1 = get_vol(u1, b1)
+    vol2 = get_vol(u2, b2)
+    vol3 = get_vol(u3, b3)
+
+    A_2 = (vol2 - vol1) / 2
+    A_3 = (vol3 - vol2) / 2
+
+    return 2 - (np.log(A_2) - np.log(A_3)) / (np.log(2) - np.log(3))
 
 
 def get_filepaths(dirpath):
@@ -48,7 +59,7 @@ def get_filepaths(dirpath):
 
 
 for path, filename in get_filepaths('../images'):
-    img = io.imread(path)
-    img = color.rgb2gray(img)
+    img = cv2.imread(path)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    print(f'{filename}: {measure_image(img)}')
+    print(f'{filename}: {get_D(img)}')
