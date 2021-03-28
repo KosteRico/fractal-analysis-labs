@@ -5,4 +5,4 @@
 
 ## График
 
-![график](plot.png)
+![график](https://github.com/KosteRico/fractal-analysis-labs/blob/main/lab7/plot.png?raw=true)

@@ -6,8 +6,8 @@
 
 ### До обработки
 
-![до обработки](../text/img.png)
+![до обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/text/img.png?raw=true)
 
 ### После обработки
 
-![после обработки](segmented.jpg)
+![после обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/lab5/segmented.jpg?raw=true)
