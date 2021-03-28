@@ -3,8 +3,6 @@ from os import listdir
 import cv2
 import numpy as np
 
-N = 200
-
 
 def get_u(img):
     k, l = img.shape
@@ -26,10 +24,10 @@ def get_b(img):
 
 def get_vol(u, b):
     k, l = u.shape
-    vol = 0.0
+    vol = 0
     for i in range(k):
         for j in range(l):
-            vol = vol + u[i][j] - b[i][j]
+            vol += u[i][j] - b[i][j]
     return vol
 
 
@@ -37,19 +35,28 @@ def get_D(img):
     u1 = get_u(img)
     u2 = get_u(u1)
     u3 = get_u(u2)
+    u4 = get_u(u3)
+    u5 = get_u(u4)
+    u6 = get_u(u5)
 
     b1 = get_b(img)
     b2 = get_b(b1)
     b3 = get_b(b2)
+    b4 = get_b(b3)
+    b5 = get_b(b4)
+    b6 = get_b(b5)
 
-    vol1 = get_vol(u1, b1)
-    vol2 = get_vol(u2, b2)
-    vol3 = get_vol(u3, b3)
+    # vol1 = get_vol(u1, b1)
+    # vol2 = get_vol(u2, b2)
+    # vol3 = get_vol(u3, b3)
+    vol4 = get_vol(u4, b4)
+    vol5 = get_vol(u5, b5)
+    vol6 = get_vol(u6, b6)
 
-    A_2 = (vol2 - vol1) / 2
-    A_3 = (vol3 - vol2) / 2
+    A_2 = (vol5 - vol4) / (2)
+    A_3 = (vol6 - vol5) / (2)
 
-    return 2 - (np.log(A_2) - np.log(A_3)) / (np.log(2) - np.log(3))
+    return 2 - (np.log(A_2) - np.log(A_3)) / (np.log(5) - np.log(6))
 
 
 def get_filepaths(dirpath):
@@ -59,7 +66,7 @@ def get_filepaths(dirpath):
 
 
 for path, filename in get_filepaths('../images'):
-    img = cv2.imread(path)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    image = cv2.imread(path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    print(f'{filename}: {get_D(img)}')
+    print(f'for {filename}: D={get_D(image)}')

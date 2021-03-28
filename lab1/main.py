@@ -1,7 +1,7 @@
 from os import listdir
 
+import cv2
 import numpy as np
-from skimage import io, color
 from skimage.filters import threshold_otsu
 
 
@@ -24,7 +24,7 @@ def fractal_dimension(img):
 
     n = int(np.log(n) / np.log(2))
 
-    sizes = 2 ** np.arange(n, 1, -1)
+    sizes = 2 ** np.arange(n, 0, -1)
 
     counts = []
     for size in sizes:
@@ -41,8 +41,8 @@ def get_filepaths(dirpath):
 
 
 for path in get_filepaths('../images'):
-    img = io.imread(path)
-    img = color.rgb2gray(img)
+    img = cv2.imread(path)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     res = fractal_dimension(img)
     print("{:20}: {}".format(path, res))
