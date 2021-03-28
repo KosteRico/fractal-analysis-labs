@@ -6,3 +6,5 @@ __pycache__/
 .idea/
 
 lab*/*.png
+
+!lab*/plot.png
