@@ -34,5 +34,5 @@
 
 ## Сравнительный график
 
-![график](https://github.com/KosteRico/fractal-analysis-labs/blob/main/lab6/plot.png?raw=true)
+![график](https://github.com/KosteRico/fractal-analysis-labs/blob/main/lab6/plott.png?raw=true)
   
