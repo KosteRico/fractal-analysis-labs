@@ -1,3 +1,5 @@
+from os import listdir
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -57,8 +59,6 @@ def get_A_s(img, betas):
 
         A = (vol2 - vol1) / 2
 
-        print(vol1, vol2)
-
         res = np.log(A) / np.log(beta)
 
         print(f'beta={beta}: A={res}')
@@ -66,18 +66,32 @@ def get_A_s(img, betas):
         yield res
 
 
-if __name__ == '__main__':
-    img = cv2.imread('../text/img.png')
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+def get_filepaths(dirpath):
+    files = listdir(dirpath)
+    for file in files:
+        yield '%s/%s' % (dirpath, file), file
+
+
+plt.figure(figsize=(10, 10))
+plt.xlabel('Beta')
+plt.ylabel('log(A) / log(delta)')
+plt.grid(True)
+
+l_s = []
+labels = []
+
+for path, filename in get_filepaths('../images'):
+    image = cv2.imread(path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     betas = [i for i in range(2, 11)]
 
-    A_s = [i for i in get_A_s(img, betas)]
+    A_s = [i for i in get_A_s(image, betas)]
 
-    plt.figure(figsize=(10, 10))
     line, = plt.plot(betas, A_s)
 
-    plt.xlabel('beta')
-    plt.ylabel('log(A) / log(delta)')
+    l_s.append(line)
+    labels.append(filename)
 
-    plt.show()
+plt.legend(l_s, labels)
+plt.savefig('plot.png')

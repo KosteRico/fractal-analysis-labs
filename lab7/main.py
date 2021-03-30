@@ -1,3 +1,5 @@
+from os import listdir
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -60,8 +62,22 @@ def get_D(img):
     return 2 - (np.log(A_2) - np.log(A_3)) / (np.log(2) - np.log(3))
 
 
-if __name__ == '__main__':
-    img = cv2.imread('../text/img.png')
+def get_filepaths(dirpath):
+    files = listdir(dirpath)
+    for file in files:
+        yield '%s/%s' % (dirpath, file), file
+
+
+plt.figure(figsize=(10, 10))
+plt.xlabel('Sizes')
+plt.ylabel('Minkowski distance')
+plt.grid(True)
+
+l_s = []
+labels = []
+
+for path, filename in get_filepaths('../images'):
+    img = cv2.imread(path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     sizes = [i for i in range(10, 100, 10)]
@@ -77,11 +93,12 @@ if __name__ == '__main__':
         print(f'For size={size} D={D}')
         D_s.append(D)
 
-    f = plt.figure(figsize=(10, 10))
-    plt.plot(sizes, D_s)
-    plt.xlabel('Sizes')
-    plt.ylabel('Minkowski distance')
-    plt.show()
-    plt.savefig(f, 'plot.png')
+    l, = plt.plot(sizes, D_s)
+
+    l_s.append(l)
+    labels.append(filename)
 
     print('DONE!')
+
+plt.legend(l_s, labels)
+plt.savefig('plot.png')

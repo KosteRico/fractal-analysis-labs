@@ -2,6 +2,18 @@
 
 Предлагаемая программа вычисляет размерность Минковского методом построения покрывала для полутонного изображения
 
+## Изображения
+
+- img.png ![после обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/images/img.png?raw=true)
+
+- img_1.png ![после обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/images/img_1.png?raw=true)
+
+- img_2.png ![после обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/images/img_2.png?raw=true)
+
+- img_3.png ![после обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/images/img_3.png?raw=true)
+
+- img_4.png ![после обработки](https://github.com/KosteRico/fractal-analysis-labs/blob/main/images/img_4.png?raw=true)
+
 ## Результаты
 
 - img.png: 1.70345121

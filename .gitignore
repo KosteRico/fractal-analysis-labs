@@ -7,4 +7,4 @@ __pycache__/
 
 lab*/*.png
 
-!lab*/plot.png
+!lab*/plot*.png
