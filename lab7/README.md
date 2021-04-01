@@ -22,5 +22,4 @@
 
 ## График для всех изображений
 
-- img.png
-  ![график](https://github.com/KosteRico/fractal-analysis-labs/blob/main/lab7/plot.png?raw=true)
+![график](https://github.com/KosteRico/fractal-analysis-labs/blob/main/lab7/plot.png?raw=true)
